@@ -33,7 +33,7 @@ void merge(int a[],int l,int h){
     int mid=((l+h)/2);
     merge(a,l,mid);
     merge(a,mid+1,h);
-    Merging(a,l,mid,h);
+    Merging(a,l,h,mid);
   }
 }
 int main() {

@@ -1,72 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "NewFile1.c"
 
-struct Node *root = NULL;
 
-void TreeCreate() {
-    struct Node *p, *t;
-    int x;
-    struct queue q;
-    createQueue(&q, 100); 
+struct Node {
+    int data;
+    struct Node* rchild;
+    struct Node* lchild;
+};
 
-    printf("Enter root value: ");
-    scanf("%d", &x);
 
-    root = (struct Node *)malloc(sizeof(struct Node));
-    root->data = x;
-    root->lchild = root->rchild = NULL;
-    enqueue(&q, root);  
+struct queue {
+    int size;
+    int front;
+    int rear;
+    struct Node** Q;  
+};
 
-    while (!isEmpty(q)) {
-        p = dequeue(&q);
 
-        printf("Enter left child of %d: ", p->data);
-        scanf("%d", &x);
-        if (x != -1) {
-            t = (struct Node *)malloc(sizeof(struct Node));
-            t->data = x;
-            t->lchild = t->rchild = NULL;
-            p->lchild = t;
-            enqueue(&q, t);
-        }
-
-        printf("Enter right child of %d: ", p->data);
-        scanf("%d", &x);
-        if (x != -1) {
-            t = (struct Node *)malloc(sizeof(struct Node));
-            t->data = x;
-            t->lchild = t->rchild = NULL;
-            p->rchild = t;
-            enqueue(&q, t);
-        }
-    }
+void createQueue(struct queue* q, int size) {
+    q->size = size;
+    q->front = q->rear = 0;  
+    q->Q = (struct Node**)malloc(sizeof(struct Node*) * q->size); 
 }
-void LevelOrder(struct Node *root) {
-    struct queue q;
-    createQueue(&q, 100);  
 
-    if (root == NULL) return;
 
-    enqueue(&q, root);
-
-    while (!isEmpty(q)) {
-        struct Node *p = dequeue(&q);
-        printf("%d ", p->data);
-
-        if (p->lchild != NULL)
-            enqueue(&q, p->lchild);
-        if (p->rchild != NULL)
-            enqueue(&q, p->rchild);
+void enqueue(struct queue* q, struct Node* x) {
+    if ((q->rear + 1) % q->size == q->front)
+        printf("Queue is Full\n");
+    else {
+        q->rear = (q->rear + 1) % q->size;
+        q->Q[q->rear] = x;
     }
 }
 
-int main(){
-  TreeCreate();
 
-    printf("\nLevel Order BFS traversal:\n");
-    LevelOrder(root);
+struct Node* dequeue(struct queue* q) {  
+    struct Node* x = NULL;
+    if (q->front == q->rear)
+        printf("Queue is Empty\n");
+    else {
+        q->front = (q->front + 1) % q->size;
+        x = q->Q[q->front];
+    }
+    return x;
+}
 
-    return 0;
-  
+int isEmpty(struct queue q) {  
+    return q.front == q.rear;
 }

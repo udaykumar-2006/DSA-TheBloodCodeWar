@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
-struct Node {
-    int data;
-    struct Node* rchild;
-    struct Node* lchild;
-};
+#include "node.h"
 
 
 struct queue {

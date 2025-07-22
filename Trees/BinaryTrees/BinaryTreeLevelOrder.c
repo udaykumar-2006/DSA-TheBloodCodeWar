@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../utils/queue.h"
+#include "../utils/node.h"
+
 
 
 struct Node *root = NULL;

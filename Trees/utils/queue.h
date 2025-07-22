@@ -1,7 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-struct Node; 
+#include "node.h"
+
 
 struct queue {
     int size;
